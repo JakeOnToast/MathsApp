@@ -30,12 +30,14 @@ dependencies:
   flutter:
     sdk: flutter
 
-  provider: ^5.0.0
+  provider: ^6.0.0
   community_material_icon: ^5.9.55
+  shared_preferences: ^2.0.7
 
   # use this for writing math equations.
   # it is currently an alpha build for null safety though
-  # flutter_math: ^0.3.0-nullsafety.1
+#  flutter_math: ^0.3.0-nullsafety.1
+#  flutter_math_fork: ^0.3.3+1
 
 
   # The following adds the Cupertino Icons font to your application.

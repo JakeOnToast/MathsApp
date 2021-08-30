@@ -1,8 +1,9 @@
 class Question{
 
-  final dynamic question;
-  final dynamic answer;
+  final String question;
+  final String correctAnswer;
+  final List<String> answerChoices;
 
-  const Question(this.question, this.answer);
+  const Question(this.question, this.correctAnswer, this.answerChoices);
 
 }

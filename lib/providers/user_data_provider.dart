@@ -1,7 +1,7 @@
 
 
 import 'package:flutter/foundation.dart';
-import 'package:mathsapp/models/modes.dart';
+import '../models/modes.dart';
 
 class UserDataProvider with ChangeNotifier{
 
@@ -10,6 +10,15 @@ class UserDataProvider with ChangeNotifier{
 
   Mode _mode = Mode.play;
   Mode get mode => _mode;
+
+  int _temporaryLevel = 1;
+  int get temporaryLevel => _temporaryLevel;
+
+  set temporaryLevel(int level){
+    if(level < 0 || level > 6) return;
+    _temporaryLevel = level;
+    notifyListeners();
+  }
 
   final topicProgression = {
 

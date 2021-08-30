@@ -1,51 +1,49 @@
 import 'package:flutter/material.dart';
-import '../widgets/circular_timer.dart';
+
+import '../providers/topic_provider.dart';
+import '../models/question.dart';
+import '../widgets/gradient_background_timer.dart';
 import '../models/topic.dart';
+
+import 'package:provider/provider.dart';
+
+const numQuestions = 5.0;
 
 class TimedQuestionScreen extends StatefulWidget {
   static const routeName = "/timesQuestionScreen";
-  const TimedQuestionScreen({Key? key}) : super(key: key);
+
+
+  final Topic topic;
+  final int level;
+  late final List<Question> questions;
+
+  TimedQuestionScreen({Key? key, required this.topic, required this.level})
+      : questions = topic.generateQuestions(level, numQuestions),
+        super(key: key);
 
   @override
-  _TimedQuestionScreenState createState() => _TimedQuestionScreenState();
+  State<TimedQuestionScreen> createState() => _TimedQuestionScreenState();
 }
 
-class _TimedQuestionScreenState extends State<TimedQuestionScreen>
-    with TickerProviderStateMixin {
-  late final AnimationController _controller;
+class _TimedQuestionScreenState extends State<TimedQuestionScreen> {
+  final GlobalKey<GradientBackgroundTimerState> timerKey = GlobalKey();
 
-  @override
-  void initState() {
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 10),
-    )..addListener(() {
-        setState(() {});
-      });
-    _controller.forward();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+  int questionIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    final topic = ModalRoute.of(context)!.settings.arguments as Topic;
+    final topic = widget.topic;
     final isLight = Theme.of(context).brightness == Brightness.light;
+
 
     final topicColor = topic.color;
     final topicAccentColor = topic.color[isLight ? 200 : 800] ?? Colors.white;
 
-    final monoColor = Theme.of(context).textTheme.headline5!.color ?? Colors.white;
+    // final monoColor =
+    //     Theme.of(context).textTheme.headline5!.color ?? Colors.white;
 
-    if (_controller.isCompleted) {
-      // Show game over dialog/screen
-      print("done");
-    }
+    final question = widget.questions[questionIndex];
+
     return Scaffold(
       appBar: AppBar(
         shape: const RoundedRectangleBorder(
@@ -63,7 +61,7 @@ class _TimedQuestionScreenState extends State<TimedQuestionScreen>
             color: topicAccentColor,
             borderRadius: BorderRadius.circular(20),
           ),
-          child: const Text("0 / 5"),
+          child: Text("$questionIndex / ${numQuestions.toInt()}"),
         ),
       ),
       body: SizedBox(
@@ -74,121 +72,101 @@ class _TimedQuestionScreenState extends State<TimedQuestionScreen>
           children: [
             FractionallySizedBox(
               widthFactor: 0.6,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  ShaderMask(
-                    blendMode: BlendMode.srcATop,
-                    shaderCallback: (bounds) => LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [topicAccentColor.withOpacity(0.45), topicColor],
-                      stops: [_controller.value, _controller.value],
-                    ).createShader(bounds),
-                    child: AspectRatio(
-                      aspectRatio: 3,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: Theme.of(context).canvasColor,
-                        ),
+              child: AspectRatio(
+                aspectRatio: 3,
+                child: GradientBackgroundTimer(
+                  key: timerKey,
+                  onComplete: () {
+                    timerKey.currentState!.resetTimer();
+                  },
+                  fullColor: topicColor,
+                  emptyColor: topicAccentColor.withOpacity(0.45),
+                  child: Container(
+                    padding: const EdgeInsets.all(8.0),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: topicAccentColor,
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        question.question,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headline6,
                       ),
                     ),
                   ),
-                  AspectRatio(
-                    aspectRatio: 3,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: topicAccentColor,
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        child: Text(
-                          "80 + 2",
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headline6,
+                ),
+              ),
+            ),
+            AspectRatio(
+              aspectRatio: 2 * question.answerChoices.length + 1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: question.answerChoices
+                    .map(
+                      (answer) => AspectRatio(
+                        aspectRatio: 1,
+                        child: InkWell(
+                          onTap: () => guess(answer, question),
+                          splashColor: topicColor,
+                          splashFactory: InkRipple.splashFactory,
+                          customBorder: const CircleBorder(),
+                          child: Container(
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              // color: topicAccentColor,
+                              border: Border.all(color: topicColor, width: 4),
+                            ),
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                answer,
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6!
+                                    .copyWith(color: topicColor),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                ],
+                    )
+                    .toList(),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: topicColor, width: 4),
-                  ),
-                  child: Text(
-                    "72",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6!
-                        .copyWith(color: topicColor),
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                        width: 4,
-                        color: monoColor),
-                  ),
-                  child: CircleAvatar(
-                    backgroundColor: topicColor,
-                    child: Text(
-                      "82",
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                        width: 4,
-                        color: topicAccentColor),
-                  ),
-                  child: CircleAvatar(
-                    backgroundColor: topicColor,
-                    child: Text(
-                      "81",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6!
-                          .copyWith(color: Theme.of(context).canvasColor),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            FractionallySizedBox(
-              widthFactor: 0.3,
-              child: CircularTimer(
-                progress: _controller.value,
-                maxTime: 10,
-                color: topicColor,
-              ),
-            ),
-            // ElevatedButton(
-            //   onPressed: _controller.isAnimating || _controller.isCompleted
-            //       ? null
-            //       : () => _controller.forward(),
-            //   child: const Text("Start"),
-            // ),
-            // ElevatedButton(
-            //   onPressed: () => Navigator.of(context).pop(),
-            //   child: const Text("Quit"),
-            // ),
           ],
         ),
       ),
     );
   }
+
+  void guess(String answer, Question question) {
+
+    if(question.correctAnswer == answer){
+      if(questionIndex == numQuestions - 1){
+        successfulExit();
+        return;
+      }
+      setState(() {
+        questionIndex++;
+      });
+      timerKey.currentState!.resetTimer();
+    }
+  }
+
+  void successfulExit(){
+    final topic = widget.topic;
+
+    if(topic.selectedLevel == topic.maxLevelUnlocked && topic.selectedLevel < topic.numLevels-1){
+      topic.maxLevelUnlocked++;
+    }
+    Provider.of<TopicProvider>(context, listen: false).notifyTopicListeners();
+    Navigator.of(context).pop();
+  }
+
 }

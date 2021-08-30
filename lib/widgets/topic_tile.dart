@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../providers/topic_provider.dart';
+import 'package:provider/provider.dart';
 import '../models/topic.dart';
 import '../screens/mode_selection_screen.dart';
 import './bordered_icon.dart';
@@ -17,12 +19,19 @@ class TopicTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLight = Theme.of(context).brightness == Brightness.light;
+    final topicProvider = Provider.of<TopicProvider>(context, listen: false);
+
     return FractionallySizedBox(
       widthFactor: 0.9,
       heightFactor: 0.9,
       child: CardButton(
-        color: topic.color,
-        onPressed: () => Navigator.of(context).pushNamed(ModeSelectionScreen.routeName, arguments: topic),
+        color: topic.color[isLight ? 200 : 800] ?? Colors.black,
+        splashColor: topic.color[isLight ? 300 : 700] ?? Colors.black,
+        onPressed: (){
+          topicProvider.selectedTopic = topic;
+          Navigator.of(context).pushNamed(ModeSelectionScreen.routeName);
+        },
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Column(

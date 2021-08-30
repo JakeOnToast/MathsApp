@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 class CardButton extends StatefulWidget {
   final Widget child;
   final void Function() onPressed;
-  final MaterialColor color;
+  final Color color;
+  final Color splashColor;
 
   const CardButton({
     Key? key,
     required this.child,
     required this.onPressed,
     required this.color,
+    required this.splashColor,
   }) : super(key: key);
 
   @override
@@ -27,7 +29,6 @@ class _CardButtonState extends State<CardButton> {
 
   @override
   Widget build(BuildContext context) {
-    final isLight = Theme.of(context).brightness == Brightness.light;
     return GestureDetector(
       onTapDown: (_) => _changeScale(_pressedScale),
       onTapUp: (_) => _changeScale(1.0),
@@ -37,13 +38,13 @@ class _CardButtonState extends State<CardButton> {
         duration: const Duration(milliseconds: 80),
         curve: Curves.easeOutQuad,
         child: Card(
-          color: widget.color[isLight ? 200 : 800],
+          color: widget.color,
           elevation: 3,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
           child: InkWell(
-            splashColor: widget.color[isLight ? 300 : 700],
+            splashColor: widget.splashColor,
             onTap: widget.onPressed,
             borderRadius: BorderRadius.circular(20),
             splashFactory: InkRipple.splashFactory,

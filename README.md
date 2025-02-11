@@ -1,16 +1,24 @@
-# mathsapp
+# Maths Trainer
 
-A Flutter project for maths.
+A simple mental maths trainer app that randomly generates timed multiple choice questions that are split into various topics to help the user improve their mental arithmetic.
 
-## Getting Started
+## Key features
 
-This project is a starting point for a Flutter application.
+- Custom widgets with smooth animations
+- Theming for each topic to help mentally distinguish each topic
+- Question generator with tricky multiple choice answers
+- Local saves using Hive NoSQL
+- Cloud storage using Firebase Firestore
+- Google mobile ads to access cloud storage and support the apps development
 
-A few resources to get you started if this is your first Flutter project:
+## Background
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+I spent about a month working on this project between finishing my job at Afon technology and starting my degree at the University of Bath. I wanted to experiment with custom widgets, NoSQL, Firebase and mobile ads. I never got around to fully implementing all of the topics or publishing the app but I did get a working example for the addition category.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Screenshots
+
+![Topic selection screen](dev_images/topic_screen.jpg?raw=true)
+![Topic selection screen](dev_images/addition_screen.jpg?raw=true)
+![Topic selection screen](dev_images/division_screen.jpg?raw=true)
+![Topic selection screen](dev_images/timed_question_screen.jpg?raw=true)
+![Topic selection screen](dev_images/cloud_storage_screen.jpg?raw=true)

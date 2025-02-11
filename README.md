@@ -17,8 +17,22 @@ I spent about a month working on this project between finishing my job at Afon t
 
 ## Screenshots
 
+### Home screen
+
 ![Topic selection screen](dev_images/topic_screen.jpg?raw=true)
+
+### Addition screen
+
 ![Topic selection screen](dev_images/addition_screen.jpg?raw=true)
-![Topic selection screen](dev_images/division_screen.jpg?raw=true)
+
+### Timed Addition question
+
 ![Topic selection screen](dev_images/timed_question_screen.jpg?raw=true)
+
+### Cloud storage prompt
+
 ![Topic selection screen](dev_images/cloud_storage_screen.jpg?raw=true)
+
+### Division screen
+
+![Topic selection screen](dev_images/division_screen.jpg?raw=true)

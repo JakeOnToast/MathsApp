@@ -5,9 +5,11 @@ class IconTabBar extends StatelessWidget {
   final List<IconTabItem> children;
   final void Function(dynamic) onTap;
   final MaterialColor color;
+  final dynamic variable;
 
   const IconTabBar({
     Key? key,
+    required this.variable,
     required this.children,
     required this.onTap,
     required this.color,
@@ -18,7 +20,7 @@ class IconTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final isLight = Theme.of(context).brightness == Brightness.light;
     final selectedIndex =
-        children.indexWhere((item) => item.value == item.variable);
+        children.indexWhere((item) => item.value == variable);
     final numItems = children.length;
     late final double alignmentStepSize;
     if (numItems == 2) {

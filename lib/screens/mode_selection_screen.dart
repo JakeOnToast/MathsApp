@@ -1,5 +1,7 @@
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
+import '../main.dart';
 import '../providers/topic_provider.dart';
 import '../widgets/level_selection_scroller.dart';
 import '../models/modes.dart';
@@ -8,9 +10,10 @@ import '../widgets/icon_tab_bar.dart';
 import '../widgets/icon_tab_item.dart';
 import 'package:provider/provider.dart';
 
-
 class ModeSelectionScreen extends StatelessWidget {
   static const routeName = "/modeSelectionScreen";
+
+  // final ref = FirebaseFirestore.instance.collection("users/secret/topics");
 
   const ModeSelectionScreen({Key? key}) : super(key: key);
 
@@ -61,22 +64,20 @@ class ModeSelectionScreen extends StatelessWidget {
           FractionallySizedBox(
             widthFactor: 0.65,
             child: IconTabBar(
+              variable: userDataProvider.mode,
               color: topic.color,
               onTap: (mode) => userDataProvider.mode = mode,
-              children: [
+              children: const [
                 IconTabItem(
                   value: Mode.play,
-                  variable: userDataProvider.mode,
                   iconData: Icons.timer_rounded,
                 ),
                 IconTabItem(
                   value: Mode.practice,
-                  variable: userDataProvider.mode,
                   iconData: CommunityMaterialIcons.bullseye_arrow,
                 ),
                 IconTabItem(
                   value: Mode.learn,
-                  variable: userDataProvider.mode,
                   iconData: Icons.menu_book_rounded,
                 ),
               ],
@@ -90,6 +91,34 @@ class ModeSelectionScreen extends StatelessWidget {
           const Spacer(
             flex: 3,
           ),
+          // ElevatedButton(
+          //   onPressed: () async {
+          //     final userCredentials = await signInWithGoogle();
+          //     if(userCredentials == null){
+          //       print("No user");
+          //       return;
+          //     }
+          //     print("User uid = ${userCredentials.user!.uid}");
+          //   },
+          //   child: const Text("google"),
+          // ),
+          // StreamBuilder(
+          //   stream: ref.doc("addition").snapshots(),
+          //   builder: (ctx, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          //     if(snapshot.hasData){
+          //       print(snapshot.data!.data());
+          //       final data = snapshot.requireData.data()! as Map<String, dynamic>;
+          //       return Text("max level ${data["maxLevelUnlocked"]}");
+          //     }else{
+          //       return const CircularProgressIndicator.adaptive();
+          //     }
+          //   },
+          // ),
+          // ElevatedButton(onPressed: () {
+          //   ref.doc("addition").update({"maxLevelUnlocked": ++userDataProvider.temporaryLevel});
+          // },
+          //   child: const Text("press"),
+          // ),
         ],
       ),
     );

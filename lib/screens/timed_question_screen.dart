@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../providers/topic_provider.dart';
 import '../models/question.dart';
 import '../widgets/gradient_background_timer.dart';
 import '../models/topic.dart';
-
-import 'package:provider/provider.dart';
 
 const numQuestions = 5.0;
 
 class TimedQuestionScreen extends StatefulWidget {
   static const routeName = "/timesQuestionScreen";
-
 
   final Topic topic;
   final int level;
@@ -34,7 +30,6 @@ class _TimedQuestionScreenState extends State<TimedQuestionScreen> {
   Widget build(BuildContext context) {
     final topic = widget.topic;
     final isLight = Theme.of(context).brightness == Brightness.light;
-
 
     final topicColor = topic.color;
     final topicAccentColor = topic.color[isLight ? 200 : 800] ?? Colors.white;
@@ -126,10 +121,7 @@ class _TimedQuestionScreenState extends State<TimedQuestionScreen> {
                               child: Text(
                                 answer,
                                 textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline6!
-                                    .copyWith(color: topicColor),
+                                style: Theme.of(context).textTheme.headline6!.copyWith(color: topicColor),
                               ),
                             ),
                           ),
@@ -146,9 +138,8 @@ class _TimedQuestionScreenState extends State<TimedQuestionScreen> {
   }
 
   void guess(String answer, Question question) {
-
-    if(question.correctAnswer == answer){
-      if(questionIndex == numQuestions - 1){
+    if (question.correctAnswer == answer) {
+      if (questionIndex == numQuestions - 1) {
         successfulExit();
         return;
       }
@@ -159,14 +150,12 @@ class _TimedQuestionScreenState extends State<TimedQuestionScreen> {
     }
   }
 
-  void successfulExit(){
+  void successfulExit() {
     final topic = widget.topic;
 
-    if(topic.selectedLevel == topic.maxLevelUnlocked && topic.selectedLevel < topic.numLevels-1){
+    if (topic.selectedLevel == topic.maxLevelUnlocked && topic.selectedLevel < topic.numLevels - 1) {
       topic.maxLevelUnlocked++;
     }
-    Provider.of<TopicProvider>(context, listen: false).notifyTopicListeners();
     Navigator.of(context).pop();
   }
-
 }

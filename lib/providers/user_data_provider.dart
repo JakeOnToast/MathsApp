@@ -1,10 +1,7 @@
-
-
 import 'package:flutter/foundation.dart';
 import '../models/modes.dart';
 
-class UserDataProvider with ChangeNotifier{
-
+class UserDataProvider with ChangeNotifier {
   int _level = 0;
   int get level => _level;
 
@@ -14,25 +11,21 @@ class UserDataProvider with ChangeNotifier{
   int _temporaryLevel = 1;
   int get temporaryLevel => _temporaryLevel;
 
-  set temporaryLevel(int level){
-    if(level < 0 || level > 6) return;
+  set temporaryLevel(int level) {
+    if (level < 0 || level > 6) return;
     _temporaryLevel = level;
     notifyListeners();
   }
 
-  final topicProgression = {
+  final topicProgression = {};
 
-  };
-
-
-  set mode(Mode mode){
+  set mode(Mode mode) {
     _mode = mode;
     notifyListeners();
   }
 
-  set level(int level){
+  set level(int level) {
     _level = level;
     notifyListeners();
   }
-
 }

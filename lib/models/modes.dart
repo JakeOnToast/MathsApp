@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 enum Mode{
   play,
   practice,
@@ -5,16 +7,6 @@ enum Mode{
   endless,
 }
 
-String getModeName(Mode mode){
-  switch (mode){
-
-    case Mode.play:
-      return "Play";
-    case Mode.practice:
-      return "Practice";
-    case Mode.learn:
-      return "Learn";
-    case Mode.endless:
-      return "Endless";
-  }
+extension ModeExtension on Mode{
+  String get name => describeEnum(this);
 }

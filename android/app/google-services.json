@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "421378625803",
+    "project_id": "longevity-maths",
+    "storage_bucket": "longevity-maths.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:421378625803:android:0f4bceebcbc8535089d20e",
+        "android_client_info": {
+          "package_name": "com.bigbrainenergy.mathsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "421378625803-bgnnjvkdpmjdl0c15gjcevfg42i9v6u3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bigbrainenergy.mathsapp",
+            "certificate_hash": "8910b09a99aab4827326ad2cafd8cde923b1a775"
+          }
+        },
+        {
+          "client_id": "421378625803-v0gbmq4pmoec9jpiqlkdmkmuucmg8nj1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bigbrainenergy.mathsapp",
+            "certificate_hash": "763636c9847aa9a757e0c51536ddd4a525d7d986"
+          }
+        },
+        {
+          "client_id": "421378625803-0i6j6a0licbedu6nlhdnladlvhncj07r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJUoEEELATBdKc8PMb6A2zKFh0h5DevA0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "421378625803-0i6j6a0licbedu6nlhdnladlvhncj07r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
